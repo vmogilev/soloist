@@ -15,6 +15,9 @@ class PortalsAll(models.Model):
         managed = True
         db_table = 'portals_all'
 
+    def __str__(self):
+        return "{}: {} - {}".format(self.pa_id, self.pa_code, self.pa_desc)
+
 
 class PortalClientsAll(models.Model):
     pca_id = models.BigIntegerField(primary_key=True)
@@ -30,3 +33,6 @@ class PortalClientsAll(models.Model):
         managed = True
         db_table = 'portal_clients_all'
         unique_together = (('pca_code', 'pa'),)
+
+    def __str__(self):
+        return "{}: {} - {}".format(self.pca_id, self.pca_code, self.pca_name)
