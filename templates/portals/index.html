@@ -1,0 +1,11 @@
+<body>
+{% if portal_list %}
+    <ul>
+    {% for portal in portal_list %}
+        <li><a href="{% url 'portals:clients' portal.pa_code %}">{{ portal.pa_desc }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No portals are available.</p>
+{% endif %}
+</body>

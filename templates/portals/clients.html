@@ -1,0 +1,11 @@
+<body>
+{% if client_list %}
+    <ul>
+    {% for client in client_list %}
+        <li>{{ client.pca_name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No clients are available.</p>
+{% endif %}
+</body>
