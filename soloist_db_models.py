@@ -104,16 +104,6 @@ class ClientUsersAll(models.Model):
         unique_together = (('pca', 'cua_email'),)
 
 
-class DjangoMigrations(models.Model):
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_migrations'
-
-
 class PortalClientsAll(models.Model):
     pca_id = models.BigIntegerField(primary_key=True)
     pa = models.ForeignKey('PortalsAll', models.DO_NOTHING)
