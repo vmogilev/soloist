@@ -2,7 +2,7 @@
 {% if client_list %}
     <ul>
     {% for client in client_list %}
-        <li>{{ client.pca_name }}</li>
+        <li><a href="{% url 'clients:categories' client.pca_code %}">{{ client.pca_name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

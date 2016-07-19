@@ -1,0 +1,11 @@
+<body>
+{% if category_list %}
+    <ul>
+    {% for category in category_list %}
+        <li>{{ category.cca_name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No categories are available.</p>
+{% endif %}
+</body>
