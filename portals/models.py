@@ -21,7 +21,7 @@ class PortalsAll(models.Model):
 
 class PortalClientsAll(models.Model):
     pca_id = models.BigIntegerField(primary_key=True)
-    pa = models.ForeignKey('PortalsAll', models.DO_NOTHING)
+    pa = models.ForeignKey(PortalsAll, models.DO_NOTHING)
     created_at = models.DateTimeField()
     created_by = models.CharField(max_length=30)
     modified_at = models.DateTimeField()
