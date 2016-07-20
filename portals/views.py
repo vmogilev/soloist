@@ -17,5 +17,6 @@ def clients(request, pa_code):
     template = 'portals/clients.html'
     context = {
         'client_list': client_list,
+        'pa_code': portal.pa_code,
     }
     return render(request, template, context)

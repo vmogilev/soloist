@@ -2,7 +2,7 @@
 {% if category_list %}
     <ul>
     {% for category in category_list %}
-        <li>{{ category.cca_name }}</li>
+        <li><a href="{% url 'categories:projects' pa_code=pa_code pca_code=pca_code cca_id=category.cca_id %}">{{ category.cca_name }}</li>
     {% endfor %}
     </ul>
 {% else %}
