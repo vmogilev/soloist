@@ -1,0 +1,11 @@
+<body>
+{% if worklog_list %}
+    <ul>
+    {% for worklog in worklog_list %}
+        <li>{{ worklog.pwa_note }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No worklogs are available.</p>
+{% endif %}
+</body>

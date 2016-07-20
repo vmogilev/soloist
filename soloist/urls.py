@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^p/', include('portals.urls')),
     url(r'^c/', include('clients.urls')),
     url(r'^l/', include('categories.urls')),
+    url(r'^t/', include('projects.urls')),
     url(r'^admin/', admin.site.urls),
 
 ]

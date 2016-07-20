@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'portals.apps.PortalsConfig',
     'clients.apps.ClientsConfig',
     'categories.apps.CategoriesConfig',
+    'projects.apps.ProjectsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

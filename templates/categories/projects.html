@@ -2,7 +2,7 @@
 {% if project_list %}
     <ul>
     {% for project in project_list %}
-        <li>{{ project.cpa_title }}</li>
+        <li><a href="{% url 'projects:worklogs' pa_code=pa_code pca_code=pca_code cpa_id=project.cpa_id %}">{{ project.cpa_title }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
