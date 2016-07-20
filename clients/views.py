@@ -11,5 +11,6 @@ def categories(request, pa_code, pca_code):
         'category_list': category_list,
         'pa_code': pa_code,
         'pca_code': pca_code,
+        'client': client,
     }
     return render(request, template, context)

@@ -4,7 +4,7 @@
 {% if worklog_list %}
     <table>
     {% for worklog in worklog_list %}
-        <tr><td><strong>{{ worklog.created_at }}</strong></td></tr>
+        <tr><td><strong>{{ worklog.created_by }}@{{ worklog.created_at }}</strong></td></tr>
         <tr><td><pre>{{ worklog.pwa_note }}</pre></td></tr>
     {% endfor %}
     </table>
