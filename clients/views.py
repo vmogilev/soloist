@@ -9,8 +9,7 @@ def categories(request, pa_code, pca_code):
     template = 'clients/categories.html'
     context = {
         'category_list': category_list,
-        'pa_code': pa_code,
-        'pca_code': pca_code,
+        'portal': portal,
         'client': client,
     }
     return render(request, template, context)

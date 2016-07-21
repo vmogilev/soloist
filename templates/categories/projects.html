@@ -1,10 +1,44 @@
 <body>
-<span>{{ pa_code }} › {{ pca_code }}</span>
-<h1>{{ category.cca_code }}: {{ category.cca_name }}</h1>
+
+{% url 'portals:index' as portals_url %}
+{% url 'portals:clients' portal.pa_code as clients_url %}
+{% url 'clients:categories' portal.pa_code client.pca_code as cat_url %}
+{% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id as proj_url %}
+
+{% load breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb "Home" %}
+    {% breadcrumb "Portals" portals_url %}
+    {% breadcrumb portal.pa_code %}
+    {% breadcrumb "Clients" clients_url %}
+    {% breadcrumb client.pca_code %}
+    {% breadcrumb "Categories" cat_url %}
+    {% breadcrumb category.cca_code %}
+    {% breadcrumb "Topics" proj_url %}
+{% endblock %}
+
+<h1>{{ category.cca_name }}</h1>
 {% if project_list %}
-    <ul>
+    <table id="category-topics">
+    <tr>
+        <th>Code</th>
+        <th>Title</th>
+        <th>Summary</th>
+        <th>Created On</th>
+        <th>Created By</th>
+        <th>Modified On</th>
+        <th>Modified By</th>
+    </tr>
     {% for project in project_list %}
-        <li><a href="{% url 'projects:worklogs' pa_code=pa_code pca_code=pca_code cpa_id=project.cpa_id %}">{{ project.cpa_title }}</a></li>
+        <tr>
+            <td>{{ project.cpa_code }}</td>
+            <td><a href="{% url 'projects:worklogs' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id %}">{{ project.cpa_title }}</a></td>
+            <td>{{ project.cpa_summary }}</td>
+            <td>{{ project.created_at }}</td>
+            <td>{{ project.created_by }}</td>
+            <td>{{ project.modified_at }}</td>
+            <td>{{ project.modified_by }}</td>
+        </tr>
     {% endfor %}
     </ul>
 {% else %}

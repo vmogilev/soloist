@@ -1,10 +1,39 @@
 <body>
+
+{% url 'portals:index' as portals_url %}
+{% url 'portals:clients' portal.pa_code as clients_url %}
+
+{% load breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb "Home" %}
+    {% breadcrumb "Portals" portals_url %}
+    {% breadcrumb portal.pa_code %}
+    {% breadcrumb "Clients" clients_url %}
+{% endblock %}
+
+
+<h1>{{ portal.pa_desc }}</h1>
 {% if client_list %}
-    <ul>
+    <table id="portal-clients">
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Created On</th>
+        <th>Created By</th>
+        <th>Modified On</th>
+        <th>Modified By</th>
+    </tr>
     {% for client in client_list %}
-        <li><a href="{% url 'clients:categories' pa_code client.pca_code %}">{{ client.pca_name }}</a></li>
+        <tr>
+            <td>{{ client.pca_code }}</td>
+            <td><a href="{% url 'clients:categories' portal.pa_code client.pca_code %}">{{ client.pca_name }}</a></td>
+            <td>{{ client.created_at }}</td>
+            <td>{{ client.created_by }}</td>
+            <td>{{ client.modified_at }}</td>
+            <td>{{ client.modified_by }}</td>
+        </tr>
     {% endfor %}
-    </ul>
+    </table>
 {% else %}
     <p>No clients are available.</p>
 {% endif %}

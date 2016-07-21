@@ -18,8 +18,6 @@ def worklogs(request, pa_code, pca_code, cpa_id):
         'client': client,
         'project': project,
         'category': category,
-        'pa_code': pa_code,
-        'pca_code': pca_code,
-        'cpa_id': cpa_id,
+        'portal': portal,
     }
     return render(request, template, context)

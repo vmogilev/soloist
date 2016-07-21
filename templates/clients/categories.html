@@ -1,12 +1,41 @@
 <body>
-<span>{{ pa_code }}</span>
-<h1>{{ client.pca_code }}: {{ client.pca_name }}</h1>
+
+{% url 'portals:index' as portals_url %}
+{% url 'portals:clients' portal.pa_code as clients_url %}
+{% url 'clients:categories' portal.pa_code client.pca_code as cat_url %}
+
+{% load breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb "Home" %}
+    {% breadcrumb "Portals" portals_url %}
+    {% breadcrumb portal.pa_code %}
+    {% breadcrumb "Clients" clients_url %}
+    {% breadcrumb client.pca_code %}
+    {% breadcrumb "Categories" cat_url %}
+{% endblock %}
+
+<h1>{{ client.pca_name }}</h1>
 {% if category_list %}
-    <ul>
+    <table id="client-categories">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Created On</th>
+        <th>Created By</th>
+        <th>Modified On</th>
+        <th>Modified By</th>
+    </tr>
     {% for category in category_list %}
-        <li><a href="{% url 'categories:projects' pa_code=pa_code pca_code=pca_code cca_id=category.cca_id %}">{{ category.cca_name }}</a></li>
+        <tr>
+            <td>{{ category.cca_code }}</td>
+            <td><a href="{% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id %}">{{ category.cca_name }}</a></td>
+            <td>{{ category.created_at }}</td>
+            <td>{{ category.created_by }}</td>
+            <td>{{ category.modified_at }}</td>
+            <td>{{ category.modified_by }}</td>
+        </tr>
     {% endfor %}
-    </ul>
+    </table>
 {% else %}
     <p>No categories are available.</p>
 {% endif %}

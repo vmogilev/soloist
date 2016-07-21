@@ -1,5 +1,25 @@
 <body>
-<span>{{ pa_code }} › {{ pca_code }} › {{ category.cca_code }}</span>
+
+{% url 'portals:index' as portals_url %}
+{% url 'portals:clients' portal.pa_code as clients_url %}
+{% url 'clients:categories' portal.pa_code client.pca_code as cat_url %}
+{% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id as proj_url %}
+{% url 'projects:worklogs' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id as worklog_url %}
+
+{% load breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb "Home" %}
+    {% breadcrumb "Portals" portals_url %}
+    {% breadcrumb portal.pa_code %}
+    {% breadcrumb "Clients" clients_url %}
+    {% breadcrumb client.pca_code %}
+    {% breadcrumb "Categories" cat_url %}
+    {% breadcrumb category.cca_code %}
+    {% breadcrumb "Topics" proj_url %}
+    {% breadcrumb project.cpa_code %}
+    {% breadcrumb "Worklog" worklog_url %}
+{% endblock %}
+
 <h1>{{ project.cpa_code }}: {{ project.cpa_title }}</h1>
 {% if worklog_list %}
     <table>

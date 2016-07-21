@@ -1,4 +1,13 @@
 <body>
+
+{% url 'portals:index' as portals_url %}
+
+{% load breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb "Home" %}
+    {% breadcrumb "Portals" portals_url %}
+{% endblock %}
+
 {% if portal_list %}
     <ul>
     {% for portal in portal_list %}

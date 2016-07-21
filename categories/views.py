@@ -12,8 +12,8 @@ def projects(request, pa_code, pca_code, cca_id):
     template = 'categories/projects.html'
     context = {
         'project_list': project_list,
-        'pa_code': pa_code,
-        'pca_code': pca_code,
+        'client': client,
+        'portal': portal,
         'category': category,
     }
     return render(request, template, context)
