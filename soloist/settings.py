@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'clients.apps.ClientsConfig',
     'categories.apps.CategoriesConfig',
     'projects.apps.ProjectsConfig',
+    'worklogs.apps.WorklogsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -20,12 +20,28 @@
     {% breadcrumb "Worklog" worklog_url %}
 {% endblock %}
 
-<h1>{{ project.cpa_code }}: {{ project.cpa_title }}</h1>
+<h1>{{ project.cpa_title }}</h1>
 {% if worklog_list %}
-    <table>
+    <table id="project-worklogs">
     {% for worklog in worklog_list %}
         <tr><td><strong>{{ worklog.created_by }}@{{ worklog.created_at }}</strong></td></tr>
         <tr><td><pre>{{ worklog.pwa_note }}</pre></td></tr>
+
+        {% if worklog.hours %}
+            <table id="worklog-hours-{{ worklog.pwa_id }}" class="worklog-hours">
+            {% for hour in worklog.hours %}
+                <tr>
+                    <td>{{ hour.created_at }}</td>
+                    <td>{{ hour.wha_summary }}</td>
+                    <td>{{ hour.wha_hours }}</td>
+                    <td>{{ hour.wha_rate }}</td>
+                    <td>{{ hour.wha_inv_date }}</td>
+                    <td>{{ hour.wha_inv_number }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% endif %}
+
     {% endfor %}
     </table>
 {% else %}
