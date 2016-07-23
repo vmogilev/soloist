@@ -1,13 +1,17 @@
-<body>
+{% extends "dash_base.html" %}
 
-{% url 'portals:index' as portals_url %}
-{% url 'portals:clients' portal.pa_code as clients_url %}
-{% url 'clients:categories' portal.pa_code client.pca_code as cat_url %}
-{% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id as proj_url %}
-{% url 'projects:worklogs' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id as worklog_url %}
+{% block desc %}{{ project.cpa_title }}{% endblock %}
+{% block title %}{{ project.cpa_title }}{% endblock %}
+{% block header %}{{ project.cpa_title }}{% endblock %}
 
 {% load breadcrumbs %}
 {% block breadcrumbs %}
+    {% url 'portals:index' as portals_url %}
+    {% url 'portals:clients' portal.pa_code as clients_url %}
+    {% url 'clients:categories' portal.pa_code client.pca_code as cat_url %}
+    {% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id as proj_url %}
+    {% url 'projects:worklogs' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id as worklog_url %}
+
     {% breadcrumb "Home" %}
     {% breadcrumb "Portals" portals_url %}
     {% breadcrumb portal.pa_code %}
@@ -20,31 +24,48 @@
     {% breadcrumb "Worklog" worklog_url %}
 {% endblock %}
 
-<h1>{{ project.cpa_title }}</h1>
-{% if worklog_list %}
-    <table id="project-worklogs">
-    {% for worklog in worklog_list %}
-        <tr><td><strong>{{ worklog.created_by }}@{{ worklog.created_at }}</strong></td></tr>
-        <tr><td><pre>{{ worklog.pwa_note }}</pre></td></tr>
+{% block content %}
 
-        {% if worklog.hours %}
-            <table id="worklog-hours-{{ worklog.pwa_id }}" class="worklog-hours">
-            {% for hour in worklog.hours %}
-                <tr>
-                    <td>{{ hour.created_at }}</td>
-                    <td>{{ hour.wha_summary }}</td>
-                    <td>{{ hour.wha_hours }}</td>
-                    <td>{{ hour.wha_rate }}</td>
-                    <td>{{ hour.wha_inv_date }}</td>
-                    <td>{{ hour.wha_inv_number }}</td>
-                </tr>
-            {% endfor %}
-            </table>
-        {% endif %}
+    {% if worklog_list %}
+        <table id="project-worklogs">
+        {% for worklog in worklog_list %}
+            <tr><td><strong>{{ worklog.created_by }}@{{ worklog.created_at }}</strong></td></tr>
 
-    {% endfor %}
-    </table>
-{% else %}
-    <p>No worklogs are available.</p>
-{% endif %}
-</body>
+            {% if worklog.files %}
+                <table id="worklog-files-{{ worklog.pwa_id }}" class="worklog-files">
+                {% for file in worklog.files %}
+                    <tr>
+                        <td>{{ file.created_at }}</td>
+                        <td>{{ file.created_by }}</td>
+                        <td>{{ file.wfa_name }}</td>
+                        <td>{{ file.wfa_doc_size|filesizeformat }}</td>
+                        <td>{{ file.wfa_public }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+            {% endif %}
+
+            <tr><td><pre>{{ worklog.pwa_note }}</pre></td></tr>
+
+            {% if worklog.hours %}
+                <table id="worklog-hours-{{ worklog.pwa_id }}" class="worklog-hours">
+                {% for hour in worklog.hours %}
+                    <tr>
+                        <td>{{ hour.created_at }}</td>
+                        <td>{{ hour.wha_summary }}</td>
+                        <td>{{ hour.wha_hours }}</td>
+                        <td>{{ hour.wha_rate }}</td>
+                        <td>{{ hour.wha_inv_date }}</td>
+                        <td>{{ hour.wha_inv_number }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+            {% endif %}
+
+        {% endfor %}
+        </table>
+    {% else %}
+        <p>No worklogs are available.</p>
+    {% endif %}
+
+{% endblock %}

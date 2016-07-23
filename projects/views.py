@@ -3,7 +3,7 @@ from django.db.models import Prefetch
 from portals.models import PortalClientsAll, PortalsAll
 from clients.models import ClientCategoriesAll
 from categories.models import CategoryProjectsAll
-from worklogs.models import WorklogHoursAll
+from worklogs.models import WorklogHoursAll, WorklogFilesAll
 
 
 def worklogs(request, pa_code, pca_code, cpa_id):
@@ -15,10 +15,18 @@ def worklogs(request, pa_code, pca_code, cpa_id):
     project = get_object_or_404(CategoryProjectsAll, cpa_id=cpa_id)
     category = get_object_or_404(ClientCategoriesAll, cca_id=project.cca_id)
 
-    queryset = WorklogHoursAll.objects.order_by('created_at')
-    worklog_list = project.projectworklogsall_set.all().order_by('created_at').prefetch_related(
-        Prefetch('workloghoursall_set', queryset=queryset, to_attr='hours')
+    prefetch_hours = Prefetch(
+        'workloghoursall_set',
+        queryset=WorklogHoursAll.objects.order_by('created_at'),
+        to_attr='hours'
     )
+    prefetch_files = Prefetch(
+        'worklogfilesall_set',
+        queryset=WorklogFilesAll.objects.order_by('created_at'),
+        to_attr='files'
+    )
+    worklog_list = project.projectworklogsall_set.all().order_by('created_at').\
+        prefetch_related(prefetch_hours, prefetch_files)
 
     template = 'projects/worklogs.html'
     context = {

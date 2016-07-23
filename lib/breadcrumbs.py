@@ -117,9 +117,9 @@ def create_crumb(title, bread_url=None):
     # crumb = """<span class="breadcrumbs-arrow">""" \
     # 		"""<img src="/media/images/arrow.gif" alt="Arrow">""" \
     # 		"""</span>"""
-    crumb = "›"
+    #crumb = "›"
     if bread_url:
-        crumb = "{}&nbsp;<a href='{}'>{}</a>".format(crumb, bread_url, title)
+        crumb = "<li><a href='{}'>{}</a></li>".format(bread_url, title)
     else:
-        crumb = "{}&nbsp;{}".format(crumb, title)
+        crumb = "<li>{}</li>".format(title)
     return crumb
