@@ -118,3 +118,8 @@ pre {
   white-space: pre;
 }
 */
+
+.nav > li > a {
+  padding: 5px 15px;
+}
+

@@ -6,11 +6,21 @@
 
 
 {% block sidebar %}
+{#    <ul class="nav nav-sidebar">#}
+{#        <li><a href="{% url 'portals:index' %}">Portals</a></li>#}
+{#        <li><a href="{% url 'portals:clients' portal.pa_code %}">Clients</a></li>#}
+{#        <li><a href="{% url 'clients:categories' portal.pa_code client.pca_code %}">Categories</a></li>#}
+{#        <li class="active"><a href="{% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id %}">Topics <span class="sr-only">(current)</span></a></li>#}
+{#    </ul>#}
     <ul class="nav nav-sidebar">
-        <li><a href="{% url 'portals:index' %}">Portals</a></li>
-        <li><a href="{% url 'portals:clients' portal.pa_code %}">Clients</a></li>
-        <li><a href="{% url 'clients:categories' portal.pa_code client.pca_code %}">Categories</a></li>
-        <li class="active"><a href="{% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id %}">Topics <span class="sr-only">(current)</span></a></li>
+        {% for cat in category_list %}
+            {% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=cat.cca_id as cat_url %}
+            {% if cat.cca_id = category.cca_id %}
+                <li class="active"><a href="{{ cat_url }}">{{ cat.cca_code }}</a></li>
+            {% else %}
+                <li><a href="{{ cat_url }}">{{ cat.cca_code }}</a></li>
+            {% endif %}
+        {% endfor %}
     </ul>
 {% endblock %}
 
@@ -36,7 +46,7 @@
 
 {% block content %}
 
-    <h2>Details</h2>
+    <h2>Meta</h2>
     <dl class="dl-horizontal">
         <dt>Project Name:</dt><dd>{{ project.cpa_title }}</dd>
         <dt>Created Date:</dt><dd>{{ project.created_at|date:'Y-m-d H:i:s' }}</dd>

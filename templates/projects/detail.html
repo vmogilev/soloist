@@ -1,16 +1,26 @@
 {% extends "dash_base.html" %}
 
-{% block desc %}{{ project.cpa_title }}{% endblock %}
-{% block title %}{{ project.cpa_title }}{% endblock %}
-{% block header %}{{ project.cpa_title }}{% endblock %}
+{% block desc %}{{ project.cpa_title }}: {{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}{% endblock %}
+{% block title %}{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}{% endblock %}
+{% block header %}{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}{% endblock %}
 
 
 {% block sidebar %}
+{#    <ul class="nav nav-sidebar">#}
+{#        <li><a href="{% url 'portals:index' %}">Portals</a></li>#}
+{#        <li><a href="{% url 'portals:clients' portal.pa_code %}">Clients</a></li>#}
+{#        <li><a href="{% url 'clients:categories' portal.pa_code client.pca_code %}">Categories</a></li>#}
+{#        <li class="active"><a href="{% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id %}">Topics <span class="sr-only">(current)</span></a></li>#}
+{#    </ul>#}
     <ul class="nav nav-sidebar">
-        <li><a href="{% url 'portals:index' %}">Portals</a></li>
-        <li><a href="{% url 'portals:clients' portal.pa_code %}">Clients</a></li>
-        <li><a href="{% url 'clients:categories' portal.pa_code client.pca_code %}">Categories</a></li>
-        <li class="active"><a href="{% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id %}">Topics <span class="sr-only">(current)</span></a></li>
+        {% for cat in category_list %}
+            {% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=cat.cca_id as cat_url %}
+            {% if cat.cca_id = category.cca_id %}
+                <li class="active"><a href="{{ cat_url }}">{{ cat.cca_code }}</a></li>
+            {% else %}
+                <li><a href="{{ cat_url }}">{{ cat.cca_code }}</a></li>
+            {% endif %}
+        {% endfor %}
     </ul>
 {% endblock %}
 
@@ -21,6 +31,7 @@
     {% url 'clients:categories' portal.pa_code client.pca_code as cat_url %}
     {% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id as proj_url %}
     {% url 'projects:worklogs' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id as worklog_url %}
+    {% url 'projects:detail' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id pwa_id=worklog.pwa_id as worklog_detail %}
 
     {% breadcrumb "Home" %}
     {% breadcrumb "Portals" portals_url %}
@@ -31,56 +42,68 @@
     {% breadcrumb category.cca_code %}
     {% breadcrumb "Topics" proj_url %}
     {% breadcrumb project.cpa_code %}
-    {% breadcrumb "Worklog" worklog_url %}
+    {% breadcrumb "Worklogs" worklog_url %}
+    {% breadcrumb worklog.pwa_id worklog_detail %}
 {% endblock %}
 
 {% block content %}
 
-    {% if worklog %}
-        <table id="project-worklog">
-            <tr><th><div class="worklog-header"><strong>{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}</strong></div></th></tr>
+    <h2>Worklog</h2>
+    <pre><code>{{ worklog.pwa_note|urlize }}</code></pre>
+    {% if worklog.modified_at > worklog.created_at %}
+        <div class="mod-by">
+            <p class="text-muted"><strong>edited by: </strong>{{ worklog.modified_by }} at {{ worklog.modified_at }}</p>
+        </div>
+    {% endif %}
 
-            {% if worklog.files %}
-                <tr><td>
-                <div class="table-responsive worklog-files">
-                <table id="worklog-files-{{ worklog.pwa_id }}" class="table table-striped table-bordered table-condensed">
-                {% for file in worklog.files %}
-                    <tr>
-                        <td>{{ file.created_at|date:'Y-m-d H:i:s' }}</td>
-                        <td>{{ file.created_by }}</td>
-                        <td>{{ file.wfa_name }}</td>
-                        <td>{{ file.wfa_doc_size|filesizeformat }}</td>
-                        <td>{{ file.wfa_public }}</td>
-                    </tr>
-                {% endfor %}
-                </table>
-                </div>
-                </td></tr>
-            {% endif %}
-
-            <tr><td><pre><code>{{ worklog.pwa_note|urlize }}</pre></code></td></tr>
-
-            {% if worklog.hours %}
-                <tr><td>
-                <div class="table-responsive worklog-hours">
-                <table id="worklog-hours-{{ worklog.pwa_id }}" class="table table-striped table-bordered table-condensed">
-                {% for hour in worklog.hours %}
-                    <tr>
-                        <td>{{ hour.created_at|date:'Y-m-d H:i:s' }}</td>
-                        <td>{{ hour.wha_summary }}</td>
-                        <td>{{ hour.wha_hours }}</td>
-                        <td>{{ hour.wha_rate }}</td>
-                        <td>{{ hour.wha_inv_date|date:'Y-m-d H:i:s' }}</td>
-                        <td>{{ hour.wha_inv_number }}</td>
-                    </tr>
-                {% endfor %}
-                </table>
-                </div>
-                </td></tr>
-            {% endif %}
+    {% if worklog_hours %}
+        <h3>Time Tracking</h3>
+        <div class="table-responsive worklog-hours">
+        <table id="worklog-hours-{{ worklog.pwa_id }}" class="table table-striped table-bordered table-condensed">
+        <tr>
+            <th>Entered On</th>
+            <th>Summary</th>
+            <th>Hours</th>
+            <th>Rate</th>
+            <th>Invoice Date</th>
+            <th>Invoice #</th>
+        </tr>
+        {% for hour in worklog_hours %}
+            <tr>
+                <td>{{ hour.created_at|date:'Y-m-d H:i:s' }}</td>
+                <td>{{ hour.wha_summary }}</td>
+                <td>{{ hour.wha_hours }}</td>
+                <td>{{ hour.wha_rate }}</td>
+                <td>{{ hour.wha_inv_date|date:'Y-m-d H:i:s' }}</td>
+                <td>{{ hour.wha_inv_number }}</td>
+            </tr>
+        {% endfor %}
         </table>
-    {% else %}
-        <p>No worklogs are available.</p>
+        </div>
+    {% endif %}
+
+    {% if worklog_files %}
+        <h3>Uploads</h3>
+        <div class="table-responsive worklog-files">
+        <table id="worklog-files-{{ worklog.pwa_id }}" class="table table-striped table-bordered table-condensed">
+        <tr>
+            <th>Uploaded On</th>
+            <th>Uploaded By</th>
+            <th>File Name</th>
+            <th>File Size</th>
+            <th>Public?</th>
+        </tr>
+        {% for file in worklog_files %}
+            <tr>
+                <td>{{ file.created_at|date:'Y-m-d H:i:s' }}</td>
+                <td>{{ file.created_by }}</td>
+                <td>{{ file.wfa_name }}</td>
+                <td>{{ file.wfa_doc_size|filesizeformat }}</td>
+                <td>{{ file.wfa_public }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+        </div>
     {% endif %}
 
 {% endblock %}
