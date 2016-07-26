@@ -1,0 +1,86 @@
+{% extends "dash_base.html" %}
+
+{% block desc %}{{ project.cpa_title }}{% endblock %}
+{% block title %}{{ project.cpa_title }}{% endblock %}
+{% block header %}{{ project.cpa_title }}{% endblock %}
+
+
+{% block sidebar %}
+    <ul class="nav nav-sidebar">
+        <li><a href="{% url 'portals:index' %}">Portals</a></li>
+        <li><a href="{% url 'portals:clients' portal.pa_code %}">Clients</a></li>
+        <li><a href="{% url 'clients:categories' portal.pa_code client.pca_code %}">Categories</a></li>
+        <li class="active"><a href="{% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id %}">Topics <span class="sr-only">(current)</span></a></li>
+    </ul>
+{% endblock %}
+
+{% load breadcrumbs %}
+{% block breadcrumbs %}
+    {% url 'portals:index' as portals_url %}
+    {% url 'portals:clients' portal.pa_code as clients_url %}
+    {% url 'clients:categories' portal.pa_code client.pca_code as cat_url %}
+    {% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id as proj_url %}
+    {% url 'projects:worklogs' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id as worklog_url %}
+
+    {% breadcrumb "Home" %}
+    {% breadcrumb "Portals" portals_url %}
+    {% breadcrumb portal.pa_code %}
+    {% breadcrumb "Clients" clients_url %}
+    {% breadcrumb client.pca_code %}
+    {% breadcrumb "Categories" cat_url %}
+    {% breadcrumb category.cca_code %}
+    {% breadcrumb "Topics" proj_url %}
+    {% breadcrumb project.cpa_code %}
+    {% breadcrumb "Worklog" worklog_url %}
+{% endblock %}
+
+{% block content %}
+
+    {% if worklog %}
+        <table id="project-worklog">
+            <tr><th><div class="worklog-header"><strong>{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}</strong></div></th></tr>
+
+            {% if worklog.files %}
+                <tr><td>
+                <div class="table-responsive worklog-files">
+                <table id="worklog-files-{{ worklog.pwa_id }}" class="table table-striped table-bordered table-condensed">
+                {% for file in worklog.files %}
+                    <tr>
+                        <td>{{ file.created_at|date:'Y-m-d H:i:s' }}</td>
+                        <td>{{ file.created_by }}</td>
+                        <td>{{ file.wfa_name }}</td>
+                        <td>{{ file.wfa_doc_size|filesizeformat }}</td>
+                        <td>{{ file.wfa_public }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+                </div>
+                </td></tr>
+            {% endif %}
+
+            <tr><td><pre><code>{{ worklog.pwa_note|urlize }}</pre></code></td></tr>
+
+            {% if worklog.hours %}
+                <tr><td>
+                <div class="table-responsive worklog-hours">
+                <table id="worklog-hours-{{ worklog.pwa_id }}" class="table table-striped table-bordered table-condensed">
+                {% for hour in worklog.hours %}
+                    <tr>
+                        <td>{{ hour.created_at|date:'Y-m-d H:i:s' }}</td>
+                        <td>{{ hour.wha_summary }}</td>
+                        <td>{{ hour.wha_hours }}</td>
+                        <td>{{ hour.wha_rate }}</td>
+                        <td>{{ hour.wha_inv_date|date:'Y-m-d H:i:s' }}</td>
+                        <td>{{ hour.wha_inv_number }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+                </div>
+                </td></tr>
+            {% endif %}
+        </table>
+    {% else %}
+        <p>No worklogs are available.</p>
+    {% endif %}
+
+{% endblock %}
