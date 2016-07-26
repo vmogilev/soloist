@@ -44,7 +44,11 @@ def detail(request, pa_code, pca_code, cpa_id, pwa_id):
 
     worklog_hours = worklog.workloghoursall_set.all().order_by('created_at')
     worklog_files = worklog.worklogfilesall_set.all().order_by('created_at')
-    category_list = client.clientcategoriesall_set.only('cca_id', 'cca_code')
+
+    # do not use only() - it causes a lookup query on client_categories_all
+    # by "cca_id" = ID to be executed in the loop!
+    #category_list = client.clientcategoriesall_set.only('cca_id', 'cca_code')
+    category_list = client.clientcategoriesall_set.all()
 
     template = 'projects/detail.html'
     context = {
