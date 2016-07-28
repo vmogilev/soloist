@@ -8,7 +8,7 @@ def projects(request, pa_code, pca_code, cca_id):
     client = get_object_or_404(PortalClientsAll, pa_id=portal.pa_id, pca_code=pca_code)
     # we can get category directly by cca_id, but that's unsafe to ID probing
     category = get_object_or_404(ClientCategoriesAll, pca_id=client.pca_id, cca_id=cca_id)
-    project_list = category.categoryprojectsall_set.all().order_by('-modified_at')
+    project_list = category.categoryprojectsall_set.filter(cpa_deleted=False).order_by('-modified_at')
 
     # do not use only() - it causes a lookup query on client_categories_all
     # by "cca_id" = ID to be executed in the loop!

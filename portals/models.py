@@ -2,10 +2,10 @@ from django.db import models
 
 
 class PortalsAll(models.Model):
-    pa_id = models.BigIntegerField(primary_key=True)
-    created_at = models.DateTimeField()
+    pa_id = models.AutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=30)
-    modified_at = models.DateTimeField()
+    modified_at = models.DateTimeField(auto_now_add=True)
     modified_by = models.CharField(max_length=30)
     pa_code = models.CharField(unique=True, max_length=30)
     pa_name = models.CharField(max_length=128)

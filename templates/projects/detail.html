@@ -1,8 +1,8 @@
 {% extends "dash_base.html" %}
 
 {% block desc %}{{ project.cpa_title }}: {{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}{% endblock %}
-{% block title %}{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}{% endblock %}
-{% block header %}{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}{% endblock %}
+{% block title %}{{ project.cpa_title }}: {{ worklog.pwa_id }}{% endblock %}
+{% block header %}{{ project.cpa_title }} / {{ worklog.pwa_id }}{% endblock %}
 
 
 {% block sidebar %}
@@ -56,7 +56,7 @@
         <dt>Total Amount:</dt><dd>$ {{ project_hours.total_amount|floatformat:2 }}</dd>
     </dl>
 
-    <h2>Worklog</h2>
+    <h3>{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}</h3>
     <pre><code>{{ worklog.pwa_note|urlize }}</code></pre>
     {% if worklog.modified_at > worklog.created_at %}
         <div class="mod-by">
