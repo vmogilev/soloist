@@ -1,0 +1,20 @@
+<div class="pn-controls">
+<nav>
+    <ul class="pager">
+
+        {% if worklog_prev_url %}
+            <li><a href="{{ worklog_prev_url }}"><span aria-hidden="true">&larr;</span></a></li>
+        {% else %}
+            <li class="disabled"><a href="#"><span aria-hidden="true">&larr;</span></a></li>
+        {% endif %}
+
+        {% if worklog_next_url %}
+            <li><a href="{{ worklog_next_url }}"><span aria-hidden="true">&rarr;</span></a></li>
+        {% else %}
+            <li class="disabled"><a href="#"><span aria-hidden="true">&rarr;</span></a></li>
+        {% endif %}
+
+    </ul>
+</nav>
+</div>
+

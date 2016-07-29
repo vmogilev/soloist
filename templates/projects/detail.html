@@ -48,6 +48,14 @@
 
 {% block content %}
 
+    {% if worklog_nav.prev_id %}
+        {% url 'projects:detail' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id pwa_id=worklog_nav.prev_id as worklog_prev_url %}
+    {% endif %}
+
+    {% if worklog_nav.next_id %}
+        {% url 'projects:detail' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id pwa_id=worklog_nav.next_id as worklog_next_url %}
+    {% endif %}
+
     <h2>Project</h2>
     <dl class="dl-horizontal">
         <dt>Project Name:</dt><dd>{{ project.cpa_title }}</dd>
@@ -56,6 +64,8 @@
         <dt>Total Amount:</dt><dd>$ {{ project_hours.total_amount|floatformat:2 }}</dd>
     </dl>
 
+    {% include 'lr_pager.html'%}
+
     <h3>{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}</h3>
     <pre><code>{{ worklog.pwa_note|urlize }}</code></pre>
     {% if worklog.modified_at > worklog.created_at %}
@@ -63,6 +73,8 @@
             <p class="text-muted"><strong>edited by: </strong>{{ worklog.modified_by }} at {{ worklog.modified_at }}</p>
         </div>
     {% endif %}
+
+    {% include 'lr_pager.html'%}
 
     {% if worklog_hours %}
         <h3>Time Tracking</h3>
