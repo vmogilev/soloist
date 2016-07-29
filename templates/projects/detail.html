@@ -155,10 +155,11 @@
 
     $(document).ready(function()
     {
+        var fqdn = getFqdn();
+
         $("body").keyup(function(e) {
             // ESCAPE: go level back to project worklogs
             if (e.keyCode == 27) {
-                var fqdn = getFqdn();
                 window.location = fqdn.concat('{{ worklog_list_url|escapejs }}')
             }
         });
@@ -174,7 +175,6 @@
 
                 // left: go back a worklog
                 if (e.keyCode == 37) {
-                    var fqdn = getFqdn();
                     window.location = fqdn.concat('{{ worklog_prev_url|escapejs }}')
                 }
             {% endif %}
@@ -184,7 +184,6 @@
 
                 // right: go forward a worklog
                 if (e.keyCode == 39) {
-                    var fqdn = getFqdn();
                     window.location = fqdn.concat('{{ worklog_next_url|escapejs }}')
                 }
             {% endif %}
