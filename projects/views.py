@@ -17,12 +17,15 @@ def detail_render(request, portal, client, project, category, pwa_id, project_ho
     #category_list = client.clientcategoriesall_set.only('cca_id', 'cca_code')
     category_list = client.clientcategoriesall_set.all()
 
+    worklog_nav = ProjectWorklogsAll.gall.worklog_nav(p_cpa_id=project.cpa_id, p_pwa_id=pwa_id)
+
     template = 'projects/detail.html'
     context = {
         'worklog': worklog,
         'worklog_hours': worklog_hours,
         'worklog_files': worklog_files,
         'project_hours': project_hours,
+        'worklog_nav': worklog_nav,
         'category_list': category_list,
         'client': client,
         'project': project,

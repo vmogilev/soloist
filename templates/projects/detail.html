@@ -31,7 +31,7 @@
     {% url 'clients:categories' portal.pa_code client.pca_code as cat_url %}
     {% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id as proj_url %}
     {% url 'projects:worklogs' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id as worklog_url %}
-    {% url 'projects:detail' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id pwa_id=worklog.pwa_id as worklog_detail %}
+    {% url 'projects:detail' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id pwa_id=worklog.pwa_id as worklog_detail_url %}
 
     {% breadcrumb "Home" %}
     {% breadcrumb "Portals" portals_url %}
@@ -43,7 +43,7 @@
     {% breadcrumb "Projects" proj_url %}
     {% breadcrumb project.cpa_code %}
     {% breadcrumb "Worklogs" worklog_url %}
-    {% breadcrumb worklog.pwa_id worklog_detail %}
+    {% breadcrumb worklog.pwa_id worklog_detail_url %}
 {% endblock %}
 
 {% block content %}
@@ -113,5 +113,71 @@
         </table>
         </div>
     {% endif %}
+
+{% endblock %}
+
+
+{% block localjs %}
+
+    {% url 'projects:worklogs' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id as worklog_list_url %}
+
+    <script type="text/javascript">
+{#    $('#navsearch').submit(function(e){#}
+{#        e.preventDefault();#}
+{#        window.location = 'http:\/\/rigingo.com\/fj15/s/'+$(this).serialize();#}
+{#    });#}
+
+    function getFqdn() {
+        var http = window.location.protocol;
+        var slashes = http.concat("//");
+        var host = slashes.concat(window.location.hostname);
+        var fqdn = '';
+        if (window.location.port) {
+            var colon = host.concat(":");
+            fqdn = colon.concat(window.location.port);
+        } else {
+            fqdn = host;
+        }
+        return fqdn;
+    }
+
+    $(document).ready(function()
+    {
+        $("body").keyup(function(e) {
+            // ESCAPE: go level back to project worklogs
+            if (e.keyCode == 27) {
+                var fqdn = getFqdn();
+                window.location = fqdn.concat('{{ worklog_list_url|escapejs }}')
+            }
+        });
+
+        $("body").keydown(function(e) {
+
+            if(e.target.nodeName.toLowerCase() == 'input'){
+                return;
+            }
+
+            {% if worklog_nav.prev_id %}
+                {% url 'projects:detail' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id pwa_id=worklog_nav.prev_id as worklog_prev_url %}
+
+                // left: go back a worklog
+                if (e.keyCode == 37) {
+                    var fqdn = getFqdn();
+                    window.location = fqdn.concat('{{ worklog_prev_url|escapejs }}')
+                }
+            {% endif %}
+
+            {% if worklog_nav.next_id %}
+                {% url 'projects:detail' pa_code=portal.pa_code pca_code=client.pca_code cpa_id=project.cpa_id pwa_id=worklog_nav.next_id as worklog_next_url %}
+
+                // right: go forward a worklog
+                if (e.keyCode == 39) {
+                    var fqdn = getFqdn();
+                    window.location = fqdn.concat('{{ worklog_next_url|escapejs }}')
+                }
+            {% endif %}
+        });
+    });
+    </script>
 
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.db import models
 from categories.models import CategoryProjectsAll
-
+from lib import utils
 
 class ProjectWorklogsManager(models.Manager):
     def worklog_hours(self, p_cpa_id):
@@ -35,6 +35,28 @@ class ProjectWorklogsManager(models.Manager):
                           WHERE w.cpa_id = %s""", [p_cpa_id])
             row = c.fetchone()
         return {'total_hours': row[0], 'total_amount': row[1]}
+
+    def worklog_nav(self, p_cpa_id, p_pwa_id):
+        from django.db import connection
+
+        with connection.cursor() as c:
+            c.execute("""SELECT pwa_id id
+                           FROM project_worklogs_all w
+                          WHERE w.pwa_id > %s
+                            AND w.cpa_id = %s
+                          ORDER BY pwa_id LIMIT 1""", [p_pwa_id, p_cpa_id])
+            next_id = c.fetchone()
+
+        with connection.cursor() as c:
+            c.execute("""SELECT pwa_id id
+                           FROM project_worklogs_all w
+                          WHERE w.pwa_id < %s
+                            AND w.cpa_id = %s
+                          ORDER BY pwa_id DESC LIMIT 1""", [p_pwa_id, p_cpa_id])
+            prev_id = c.fetchone()
+
+        return {'next_id': utils.if_none_this(next_id, 0, None),
+                'prev_id': utils.if_none_this(prev_id, 0, None)}
 
 
 class ProjectWorklogsAll(models.Model):
