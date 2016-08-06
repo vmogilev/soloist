@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'categories.apps.CategoriesConfig',
     'projects.apps.ProjectsConfig',
     'worklogs.apps.WorklogsConfig',
+    'search.apps.SearchConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -86,11 +87,11 @@ WSGI_APPLICATION = 'soloist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DJANGO_CASTREVIEW_DB_NAME', 'scdb'),
-        'USER': os.getenv('DJANGO_CASTREVIEW_DB_USER', 'scapp'),
-        'PASSWORD': os.getenv('DJANGO_CASTREVIEW_DB_PASS', 'scapp'),
-        'HOST': os.getenv('DJANGO_CASTREVIEW_DB_HOST', '127.0.0.1'),
-        'PORT': os.getenv('DJANGO_CASTREVIEW_DB_PORT', '5432'),
+        'NAME': os.getenv('DJANGO_SOLOIST_DB_NAME', 'scdb'),
+        'USER': os.getenv('DJANGO_SOLOIST_DB_USER', 'scapp'),
+        'PASSWORD': os.getenv('DJANGO_SOLOIST_DB_PASS', 'scapp'),
+        'HOST': os.getenv('DJANGO_SOLOIST_DB_HOST', '127.0.0.1'),
+        'PORT': os.getenv('DJANGO_SOLOIST_DB_PORT', '5432'),
     }
 }
 
@@ -153,3 +154,14 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'deploy/static')
+
+
+# Elasticsearch
+# http://elasticsearch-dsl.readthedocs.io/en/latest/configuration.html
+# https://github.com/HonzaKral/es-django-example/
+
+ES_INDEX = os.getenv('ES_INDEX', 'soloist')
+
+ES_CONNECTIONS = {
+    'default': {'hosts': os.getenv('ES_HOST', 'localhost:9200')},
+}

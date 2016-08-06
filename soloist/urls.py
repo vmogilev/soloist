@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^c/', include('clients.urls')),
     url(r'^l/', include('categories.urls')),
     url(r'^t/', include('projects.urls')),
+    url(r'^s/', include('search.urls')),
     url(r'^admin/', admin.site.urls),
 
 ]
