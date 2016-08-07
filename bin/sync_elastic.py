@@ -32,13 +32,13 @@ def sync_worklogs_all():
         c.execute("""
                   SELECT pwa.pwa_id as "_id",
                          'worklog' as "_type",
-                         pwa.created_by::TEXT||'@'||
-                            to_char(pwa.created_at,'YYYY/MM/DD HH24:MI:SS')::TEXT||': '||
-                            cpa.cpa_title as "title",
+                         cpa.cpa_title as "cpa_title",
+                         pwa.created_by as "pwa_created_by",
+                         pwa.created_at as "pwa_created_at",
                          pa.pa_code as "pa_code",
                          pca.pca_code as "pca_code",
                          cpa.cpa_id as "cpa_id",
-                         pwa.pwa_note as "body"
+                         pwa.pwa_note as "pwa_note"
                   FROM project_worklogs_all pwa
                   ,    category_projects_all cpa
                   ,    client_categories_all cca
