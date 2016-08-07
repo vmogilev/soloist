@@ -12,13 +12,23 @@
     </ul>
 {% endblock %}
 
-{% load breadcrumbs %}
-{% block breadcrumbs %}
-    {% breadcrumb "Search" %}
-    {% breadcrumb query_string %}
-{% endblock %}
 
 {% block content %}
+
+    <form id="content-search" action="{% url 'search:serp' %}" method="get">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <input name="q" type="text" class="form-control" value="{{ query_string|default:"" }}" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Go!</button>
+    {#                type="submit"#}
+                </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+    </form>
+
     {% if search_results %}
         <h2>Results <small>[{{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}]</small></h2>
         {% for serp in search_results %}

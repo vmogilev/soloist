@@ -13,8 +13,10 @@
 {% load breadcrumbs %}
 {% block breadcrumbs %}
     {% url 'portals:index' as portals_url %}
-    {% breadcrumb "Home" %}
-    {% breadcrumb "Portals" portals_url %}
+    <ul class="breadcrumb">
+        {% breadcrumb "Home" %}
+        {% breadcrumb "Portals" portals_url %}
+    </ul>
 {% endblock %}
 
 {% block content %}

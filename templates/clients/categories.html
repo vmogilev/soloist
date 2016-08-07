@@ -28,13 +28,14 @@
     {% url 'portals:index' as portals_url %}
     {% url 'portals:clients' portal.pa_code as clients_url %}
     {% url 'clients:categories' portal.pa_code client.pca_code as cat_url %}
-
-    {% breadcrumb "Home" %}
-    {% breadcrumb "Portals" portals_url %}
-    {% breadcrumb portal.pa_code %}
-    {% breadcrumb "Clients" clients_url %}
-    {% breadcrumb client.pca_code %}
-    {% breadcrumb "Categories" cat_url %}
+    <ul class="breadcrumb">
+        {% breadcrumb "Home" %}
+        {% breadcrumb "Portals" portals_url %}
+        {% breadcrumb portal.pa_code %}
+        {% breadcrumb "Clients" clients_url %}
+        {% breadcrumb client.pca_code %}
+        {% breadcrumb "Categories" cat_url %}
+    </ul>
 {% endblock %}
 
 {% block content %}

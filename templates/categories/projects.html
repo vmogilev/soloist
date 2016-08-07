@@ -30,15 +30,16 @@
     {% url 'portals:clients' portal.pa_code as clients_url %}
     {% url 'clients:categories' portal.pa_code client.pca_code as cat_url %}
     {% url 'categories:projects' pa_code=portal.pa_code pca_code=client.pca_code cca_id=category.cca_id as proj_url %}
-
-    {% breadcrumb "Home" %}
-    {% breadcrumb "Portals" portals_url %}
-    {% breadcrumb portal.pa_code %}
-    {% breadcrumb "Clients" clients_url %}
-    {% breadcrumb client.pca_code %}
-    {% breadcrumb "Categories" cat_url %}
-    {% breadcrumb category.cca_code %}
-    {% breadcrumb "Projects" proj_url %}
+    <ul class="breadcrumb">
+        {% breadcrumb "Home" %}
+        {% breadcrumb "Portals" portals_url %}
+        {% breadcrumb portal.pa_code %}
+        {% breadcrumb "Clients" clients_url %}
+        {% breadcrumb client.pca_code %}
+        {% breadcrumb "Categories" cat_url %}
+        {% breadcrumb category.cca_code %}
+        {% breadcrumb "Projects" proj_url %}
+    </ul>
 {% endblock %}
 
 {% block content %}
