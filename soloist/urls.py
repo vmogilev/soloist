@@ -22,6 +22,6 @@ urlpatterns = [
     url(r'^l/', include('categories.urls')),
     url(r'^t/', include('projects.urls')),
     url(r'^s/', include('search.urls')),
+    url(r'^files/', include('uploads.urls')),
     url(r'^admin/', admin.site.urls),
-
 ]

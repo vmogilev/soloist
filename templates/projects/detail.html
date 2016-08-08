@@ -115,10 +115,12 @@
             <th>Public?</th>
         </tr>
         {% for file in worklog_files %}
+            {% url 'uploads:download' cpa_id=project.cpa_id file_name=file.wfa_name as download_url %}
             <tr>
                 <td>{{ file.created_at|date:'Y-m-d H:i:s' }}</td>
                 <td>{{ file.created_by }}</td>
-                <td>{{ file.wfa_name }}</td>
+{#                do not url encode download URL - it's already encoded by `url` parser #}
+                <td><a href="{{ download_url }}">{{ file.wfa_name }}</a></td>
                 <td>{{ file.wfa_doc_size|filesizeformat }}</td>
                 <td>{{ file.wfa_public }}</td>
             </tr>

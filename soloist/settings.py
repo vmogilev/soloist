@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'worklogs.apps.WorklogsConfig',
     'search.apps.SearchConfig',
+    'uploads.apps.UploadsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -165,3 +166,9 @@ ES_INDEX = os.getenv('ES_INDEX', 'soloist')
 ES_CONNECTIONS = {
     'default': {'hosts': os.getenv('ES_HOST', 'localhost:9200')},
 }
+
+
+# S3 Uploads
+
+S3_UPLOAD_BUCKET = os.getenv('S3_UPLOAD_BUCKET')
+S3_UPLOAD_PREFIX = os.getenv('S3_UPLOAD_PREFIX')
