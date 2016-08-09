@@ -56,6 +56,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'lib.require_login_middleware.RequireLoginMiddleware',
 ]
 
 ROOT_URLCONF = 'soloist.urls'
@@ -172,3 +173,16 @@ ES_CONNECTIONS = {
 
 S3_UPLOAD_BUCKET = os.getenv('S3_UPLOAD_BUCKET')
 S3_UPLOAD_PREFIX = os.getenv('S3_UPLOAD_PREFIX')
+
+
+# see lib/require_login_middleware.py
+
+LOGIN_REQUIRED_URLS = (
+        r'/(.*)$',
+    )
+LOGIN_REQUIRED_URLS_EXCEPTIONS = (
+    r'/login(.*)$',
+    r'/logout(.*)$',
+)
+
+LOGIN_URL = '/login/'

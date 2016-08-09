@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     url(r'^p/', include('soloist.apps.portals.urls')),
@@ -24,4 +26,6 @@ urlpatterns = [
     url(r'^s/', include('soloist.apps.search.urls')),
     url(r'^files/', include('soloist.apps.uploads.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^login/$', view=auth_views.login, kwargs={'template_name': 'login.html'}, name='login'),
+    url(r'^logout/$', view=auth_views.logout, kwargs={'next_page': '/p'}, name='logout'),
 ]

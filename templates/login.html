@@ -1,0 +1,82 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static "favicon.ico" %}">
+
+    <title>Signin Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static  "dist/css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "signin.css" %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+
+    {% if form.errors and not form.non_field_errors %}
+    <div class="alert alert-info" role="alert">
+    {% if form.errors.items|length == 1 %}Please correct the error below.{% else %}Please correct the errors below.{% endif %}
+    </div>
+    {% endif %}
+
+    {% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+    <div class="alert alert-info" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <div class="alert alert-info" role="alert">
+        You are authenticated as {{ username }}, but are not authorized to
+        access this page. Would you like to login to a different account?
+    </div>
+    {% endif %}
+
+      <form action="{% url 'login' %}" method="post" id="login-form" class="form-signin">{% csrf_token %}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="id_username" class="sr-only">Email address</label>
+        <input id="id_username" type="text" name="username" maxlength="254" {% if form.username.value %}value="{{ form.username.value }}"{% endif %} class="form-control" aria-describedby="username-errors" placeholder="Username" required autofocus>
+        {% if form.username.errors %}<span id="username-errors" class="help-block">{{ form.username.errors }}</span>{% endif %}
+        <label for="id_password" class="sr-only">Password</label>
+        <input id="id_password" type="password" name="password" class="form-control" aria-describedby="password-errors" placeholder="Password" required>
+        {% if form.password.errors %}<span id="password-errors" class="help-block">{{ form.password.errors }}</span>{% endif %}
+
+{#        <div class="checkbox">#}
+{#          <label>#}
+{#            <input type="checkbox" value="remember-me"> Remember me#}
+{#          </label>#}
+{#        </div>#}
+
+      {% url 'password_reset' as password_reset_url %}
+      {% if password_reset_url %}
+      <div class="password-reset-link">
+        <a href="{{ password_reset_url }}">Forgotten your password or username?</a>
+      </div>
+      {% endif %}
+
+        <input type="hidden" name="next" value="{{ next }}">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>
