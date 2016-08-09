@@ -1,5 +1,5 @@
 from django.db import models
-from projects.models import ProjectWorklogsAll
+from soloist.apps.projects.models import ProjectWorklogsAll
 
 class WorklogFilesAll(models.Model):
     wfa_id = models.BigIntegerField(primary_key=True)

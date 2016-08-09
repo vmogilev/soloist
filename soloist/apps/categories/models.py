@@ -1,5 +1,5 @@
 from django.db import models
-from clients.models import ClientCategoriesAll, ClientPurchaseOrdersAll, TeamUsersAll
+from soloist.apps.clients.models import ClientCategoriesAll, ClientPurchaseOrdersAll, TeamUsersAll
 
 
 class CategoryProjectsAll(models.Model):

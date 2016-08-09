@@ -4,7 +4,7 @@ from elasticsearch_dsl.connections import connections
 
 
 class SearchConfig(AppConfig):
-    name = 'search'
+    name = 'soloist.apps.search'
 
     def ready(self):
         connections.configure(**settings.ES_CONNECTIONS)

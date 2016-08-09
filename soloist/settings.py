@@ -31,13 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'portals.apps.PortalsConfig',
-    'clients.apps.ClientsConfig',
-    'categories.apps.CategoriesConfig',
-    'projects.apps.ProjectsConfig',
-    'worklogs.apps.WorklogsConfig',
-    'search.apps.SearchConfig',
-    'uploads.apps.UploadsConfig',
+    'soloist.apps.portals.apps.PortalsConfig',
+    'soloist.apps.clients.apps.ClientsConfig',
+    'soloist.apps.categories.apps.CategoriesConfig',
+    'soloist.apps.projects.apps.ProjectsConfig',
+    'soloist.apps.worklogs.apps.WorklogsConfig',
+    'soloist.apps.search.apps.SearchConfig',
+    'soloist.apps.uploads.apps.UploadsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

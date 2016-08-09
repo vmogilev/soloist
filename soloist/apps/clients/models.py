@@ -1,5 +1,5 @@
 from django.db import models
-from portals.models import PortalClientsAll
+from soloist.apps.portals.models import PortalClientsAll
 
 
 class ClientCategoriesAll(models.Model):

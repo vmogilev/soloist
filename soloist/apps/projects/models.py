@@ -1,5 +1,5 @@
 from django.db import models
-from categories.models import CategoryProjectsAll
+from soloist.apps.categories.models import CategoryProjectsAll
 from lib import utils
 
 class ProjectWorklogsManager(models.Manager):

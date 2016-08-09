@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
-from portals.models import PortalClientsAll, PortalsAll
+
+from soloist.apps.portals.models import PortalClientsAll, PortalsAll
 
 
 def categories(request, pa_code, pca_code):

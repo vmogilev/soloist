@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from portals.models import PortalClientsAll, PortalsAll
-from clients.models import ClientCategoriesAll
+from soloist.apps.portals.models import PortalClientsAll, PortalsAll
+from soloist.apps.clients.models import ClientCategoriesAll
 
 
 def projects(request, pa_code, pca_code, cca_id):

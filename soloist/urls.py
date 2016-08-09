@@ -17,11 +17,11 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^p/', include('portals.urls')),
-    url(r'^c/', include('clients.urls')),
-    url(r'^l/', include('categories.urls')),
-    url(r'^t/', include('projects.urls')),
-    url(r'^s/', include('search.urls')),
-    url(r'^files/', include('uploads.urls')),
+    url(r'^p/', include('soloist.apps.portals.urls')),
+    url(r'^c/', include('soloist.apps.clients.urls')),
+    url(r'^l/', include('soloist.apps.categories.urls')),
+    url(r'^t/', include('soloist.apps.projects.urls')),
+    url(r'^s/', include('soloist.apps.search.urls')),
+    url(r'^files/', include('soloist.apps.uploads.urls')),
     url(r'^admin/', admin.site.urls),
 ]

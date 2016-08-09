@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 
-from portals.models import PortalClientsAll, PortalsAll
-from clients.models import ClientCategoriesAll
-from categories.models import CategoryProjectsAll
+from soloist.apps.portals.models import PortalClientsAll, PortalsAll
+from soloist.apps.clients.models import ClientCategoriesAll
+from soloist.apps.categories.models import CategoryProjectsAll
 from .models import ProjectWorklogsAll
 
 
