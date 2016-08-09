@@ -69,39 +69,7 @@
         {% endfor %}
         </table>
 
-
-        {% if project_list.has_other_pages %}
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                {% if project_list.has_previous %}
-                    <li>
-                      <a href="?page={{ project_list.previous_page_number }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                {% endif %}
-
-                {% for page in project_list.paginator.page_range %}
-                    {% if page != project_list.number %}
-                        <li><a href="?page={{ page }}">{{ page }}</a></li>
-                    {% else %}
-                        <li class="active">
-                            <span>{{ page }} <span class="sr-only">(current)</span></span>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-
-                {% if project_list.has_next %}
-                    <li>
-                      <a href="?page={{ project_list.next_page_number }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                {% endif %}
-                </ul>
-            </nav>
-        {% endif %}
-
+        {% include "button_pager.html" with page_obj=project_list %}
 
     {% else %}
         <p>No projects are available.</p>
