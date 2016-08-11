@@ -22,6 +22,7 @@
 {% block content %}
     {% if portal_list %}
         <h2>Portals</h2>
+        <div class="table-responsive">
         <table id="portal-list" class="table table-striped table-bordered table-condensed">
         <tr>
             <th>Code</th>
@@ -44,6 +45,7 @@
             </tr>
         {% endfor %}
         </table>
+        </div>
     {% else %}
         <p>No portals are available.</p>
     {% endif %}
