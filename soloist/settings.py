@@ -121,13 +121,26 @@ AUTH_PASSWORD_VALIDATORS = [
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
         },
     },
     'loggers': {
-        'django.db.backends': {
+        # 'django.db.backends': {
+        #     'handlers': ['console'],
+        #     'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        # },
+        'django': {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
