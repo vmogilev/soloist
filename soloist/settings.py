@@ -72,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_settings_export.settings_export',
             ],
             'libraries': {
                 'breadcrumbs': 'lib.breadcrumbs',
@@ -186,3 +187,18 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS = (
 )
 
 LOGIN_URL = '/login/'
+
+
+# Soloist Template Settings (exported via django_settings_export.settings_export)
+
+SOLOIST_TITLE = os.getenv('SOLOIST_TITLE', "Soloist")
+SOLOIST_DESCR = os.getenv('SOLOIST_DESCR', "Soloist helps freelancers get paid by providing \
+daily status updates to their clients.")
+SOLOIST_BRAND = os.getenv('SOLOIST_BRAND', "Soloist")
+
+SETTINGS_EXPORT_VARIABLE_NAME = 'soloist'
+SETTINGS_EXPORT = [
+    'SOLOIST_TITLE',
+    'SOLOIST_DESCR',
+    'SOLOIST_BRAND',
+]

@@ -7,6 +7,7 @@ click==6.6
 cookiecutter==1.4.0
 Django==1.9.8
 django-debug-toolbar==1.4
+django-settings-export==1.1.0
 docutils==0.12
 elasticsearch==2.3.0
 elasticsearch-dsl==2.1.0
