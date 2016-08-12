@@ -179,13 +179,18 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'deploy/static')
 
 ES_INDEX = os.getenv('ES_INDEX', 'soloist')
 
+
+# WARNING:
+#   sniffer to AWS fails with:
+#       "elasticsearch.exceptions.TransportError: TransportError(N/A, 'Unable to sniff hosts - no viable hosts found.')"
+#
 ES_CONNECTIONS = {
     'default': {
         'hosts': os.getenv('ES_HOST', 'localhost:9200'),
         'use_ssl': bool(os.getenv('ES_USE_SSL', False)),
-        'sniff_on_start': True,
-        'sniff_on_connection_fail': True,
-        'sniffer_timeout': 60,
+        # 'sniff_on_start': True,
+        # 'sniff_on_connection_fail': True,
+        # 'sniffer_timeout': 60,
     },
 }
 

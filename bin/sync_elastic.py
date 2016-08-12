@@ -18,10 +18,25 @@ def get_db():
     return conn
 
 
+def get_es():
+    es = Elasticsearch(
+        [os.getenv('ES_HOST', 'localhost:9200')],
+        # sniff before doing anything
+        # sniff_on_start=True,
+        # # refresh nodes after a node fails to respond
+        # sniff_on_connection_fail=True,
+        # # and also every 60 seconds
+        # sniffer_timeout=60,
+        use_ssl=bool(os.getenv('ES_USE_SSL', False)),
+        verify_certs=True
+    )
+    return es
+
+
 def index_all(rows):
-    idx = 'soloist'
-    es = Elasticsearch()
-    es.indices.delete(index=idx, ignore=400)
+    idx = os.getenv('ES_INDEX', 'soloist')
+    es = get_es()
+    es.indices.delete(index=idx, ignore=[400, 404])
     es.indices.create(index=idx)
     helpers.bulk(es, rows, index=idx, raise_on_error=True)
 
@@ -30,15 +45,15 @@ def sync_worklogs_all():
     conn = get_db()
     with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as c:
         c.execute("""
-                  SELECT pwa.pwa_id as "_id",
-                         'worklog' as "_type",
-                         cpa.cpa_title as "cpa_title",
-                         pwa.created_by as "pwa_created_by",
-                         pwa.created_at as "pwa_created_at",
-                         pa.pa_code as "pa_code",
-                         pca.pca_code as "pca_code",
-                         cpa.cpa_id as "cpa_id",
-                         pwa.pwa_note as "pwa_note"
+                  SELECT pwa.pwa_id AS "_id",
+                         'worklog' AS "_type",
+                         cpa.cpa_title AS "cpa_title",
+                         pwa.created_by AS "pwa_created_by",
+                         pwa.created_at AS "pwa_created_at",
+                         pa.pa_code AS "pa_code",
+                         pca.pca_code AS "pca_code",
+                         cpa.cpa_id AS "cpa_id",
+                         pwa.pwa_note AS "pwa_note"
                   FROM project_worklogs_all pwa
                   ,    category_projects_all cpa
                   ,    client_categories_all cca
@@ -61,6 +76,7 @@ def sync_worklogs_all():
 
 def main(argv):
     sync_worklogs_all()
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
