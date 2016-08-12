@@ -5,6 +5,8 @@ import psycopg2
 import psycopg2.extras
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
+# use certifi for CA certificates
+import certifi
 
 
 def get_db():
@@ -28,7 +30,8 @@ def get_es():
         # # and also every 60 seconds
         # sniffer_timeout=60,
         use_ssl=bool(os.getenv('ES_USE_SSL', False)),
-        verify_certs=True
+        verify_certs=True,
+        ca_certs=certifi.where()
     )
     return es
 
