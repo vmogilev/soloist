@@ -40,7 +40,11 @@ def index_all(rows):
     idx = os.getenv('ES_INDEX', 'soloist')
     es = get_es()
     es.indices.delete(index=idx, ignore=[400, 404])
-    es.indices.create(index=idx)
+    es.indices.create(index=idx, body={
+        "settings": {
+            "number_of_shards": os.getenv('ES_NUMBER_OF_SHARDS', 1),
+            "number_of_replicas": os.getenv('ES_NUMBER_OF_REPLICAS', 0),
+        }})
     helpers.bulk(es, rows, index=idx, raise_on_error=True)
 
 
