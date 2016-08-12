@@ -56,7 +56,8 @@ def sync_worklogs_all():
                          pa.pa_code AS "pa_code",
                          pca.pca_code AS "pca_code",
                          cpa.cpa_id AS "cpa_id",
-                         pwa.pwa_note AS "pwa_note"
+                         concat_ws(' ', pwa.pwa_note::text, (SELECT string_agg(wfa_name, ' ') AS wfa_name_list \
+                         FROM worklog_files_all WHERE pwa_id = pwa.pwa_id GROUP BY pwa_id)::text) AS "pwa_note"
                   FROM project_worklogs_all pwa
                   ,    category_projects_all cpa
                   ,    client_categories_all cca
@@ -66,6 +67,7 @@ def sync_worklogs_all():
                     AND cpa.cca_id = cca.cca_id
                     AND cca.pca_id = pca.pca_id
                     AND pca.pa_id = pa.pa_id
+                    AND cpa.cpa_deleted = FALSE
                   """)
         res = c.fetchall()
 
