@@ -191,6 +191,7 @@ ES_CONNECTIONS = {
         'hosts': os.getenv('ES_HOST', 'localhost:9200'),
         'use_ssl': bool(os.getenv('ES_USE_SSL', False)),
         'ca_certs': certifi.where(),
+        'verify_certs': True,
         # 'sniff_on_start': True,
         # 'sniff_on_connection_fail': True,
         # 'sniffer_timeout': 60,
