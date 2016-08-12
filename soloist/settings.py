@@ -174,12 +174,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'deploy/static')
 
 # Elasticsearch
 # http://elasticsearch-dsl.readthedocs.io/en/latest/configuration.html
+# http://elasticsearch-py.readthedocs.io/en/master/api.html#elasticsearch
 # https://github.com/HonzaKral/es-django-example/
 
 ES_INDEX = os.getenv('ES_INDEX', 'soloist')
 
 ES_CONNECTIONS = {
-    'default': {'hosts': os.getenv('ES_HOST', 'localhost:9200')},
+    'default': {
+        'hosts': os.getenv('ES_HOST', 'localhost:9200'),
+        'use_ssl': bool(os.getenv('ES_USE_SSL', False)),
+        'sniff_on_start': True,
+        'sniff_on_connection_fail': True,
+        'sniffer_timeout': 60,
+    },
 }
 
 
