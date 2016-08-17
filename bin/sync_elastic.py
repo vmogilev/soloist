@@ -44,7 +44,43 @@ def index_all(rows):
         "settings": {
             "number_of_shards": os.getenv('ES_NUMBER_OF_SHARDS', 1),
             "number_of_replicas": os.getenv('ES_NUMBER_OF_REPLICAS', 0),
-        }})
+        },
+        "mappings": {
+            "worklog": {
+                "properties": {
+                    "cca_code": {
+                        "type": "string"
+                    },
+                    "cpa_id": {
+                        "type": "long"
+                    },
+                    "cpa_title": {
+                        "type": "string"
+                    },
+                    "facet_category": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "pa_code": {
+                        "type": "string"
+                    },
+                    "pca_code": {
+                        "type": "string"
+                    },
+                    "pwa_created_at": {
+                        "type": "date",
+                        "format": "strict_date_optional_time||epoch_millis"
+                    },
+                    "pwa_created_by": {
+                        "type": "string"
+                    },
+                    "pwa_note": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    })
     helpers.bulk(es, rows, index=idx, raise_on_error=True)
 
 
@@ -59,6 +95,8 @@ def sync_worklogs_all():
                          pwa.created_at AS "pwa_created_at",
                          pa.pa_code AS "pa_code",
                          pca.pca_code AS "pca_code",
+                         cca.cca_code AS "cca_code",
+                         concat_ws('/', pca.pca_code::text, cca.cca_code::text) as "facet_category",
                          cpa.cpa_id AS "cpa_id",
                          concat_ws(' ', pwa.pwa_note::text, (SELECT string_agg(wfa_name, ' ') AS wfa_name_list \
                          FROM worklog_files_all WHERE pwa_id = pwa.pwa_id GROUP BY pwa_id)::text) AS "pwa_note"

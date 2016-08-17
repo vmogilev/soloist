@@ -17,20 +17,47 @@
 
     <form id="content-search" action="{% url 'search:serp' %}" method="get">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <div class="input-group">
                 <input name="q" type="text" class="form-control" value="{{ query_string|default:"" }}" placeholder="Search for...">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit">Go!</button>
-    {#                type="submit"#}
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        Search
+                    </button>
+                    <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#advanced-search" aria-expanded="false" aria-controls="advanced-search">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </button>
                 </span>
             </div><!-- /input-group -->
         </div><!-- /.col-lg-6 -->
     </div><!-- /.row -->
+
+
+    <div id="advanced-search" class="collapse panel panel-default">
+        <div class="panel-body">
+            <h3>Portals</h3>
+            {% for name, count, selected in search_facets.portals %}
+                {% include "facet_list.html" with facet_name="portals" facet_value=name facet_selected=selected facet_count=count %}
+            {% endfor %}
+
+            <h3>Clients</h3>
+            {% for name, count, selected in search_facets.clients %}
+                {% include "facet_list.html" with facet_name="clients" facet_value=name facet_selected=selected facet_count=count %}
+            {% endfor %}
+
+            <h3>Categories</h3>
+            {% for name, count, selected in search_facets.categories %}
+                {% include "facet_list.html" with facet_name="categories" facet_value=name facet_selected=selected facet_count=count %}
+            {% endfor %}
+
+        </div>
+    </div>
     </form>
 
     {% if search_results %}
         <h2>Results <small>[{{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}]</small></h2>
+
         {% for serp in search_results %}
             {% url 'projects:detail' serp.pa_code serp.pca_code serp.cpa_id serp.meta.id as detail_url %}
             <h3><a href="{{ detail_url }}">{{ serp.cpa_title }}</a></h3>
