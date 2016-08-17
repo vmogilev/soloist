@@ -147,6 +147,11 @@ LOGGING = {
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
             'propagate': True,
         },
+        'elasticsearch.trace': {
+            'handlers': ['console'],
+            'level': os.getenv('ES_LOG_LEVEL', 'INFO'),
+            'propagate': True,
+        },
     },
 }
 

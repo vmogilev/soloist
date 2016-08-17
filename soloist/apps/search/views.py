@@ -1,5 +1,3 @@
-import logging
-import pprint
 from django.shortcuts import get_object_or_404, render
 # from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -7,9 +5,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # from elasticsearch_dsl import Search
 # from elasticsearch_dsl.query import Match
 from .search_lib import WorklogSearch
-
-
-logger = logging.getLogger('django')
 
 
 def serp(request):
@@ -25,8 +20,6 @@ def serp(request):
     }
 
     s = WorklogSearch(query=query_string, filters=filters)
-    pp = pprint.PrettyPrinter(indent=4)
-    logger.debug(pp.pformat(s.build_search().to_dict()))
 
     paginator = Paginator(s, 25)
     page_no = request.GET.get('page')
