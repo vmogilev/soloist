@@ -2,6 +2,7 @@ from django.db import models
 from soloist.apps.categories.models import CategoryProjectsAll
 from lib import utils
 
+
 class ProjectWorklogsManager(models.Manager):
     def worklog_hours(self, p_cpa_id):
         from django.db import connection
@@ -60,13 +61,14 @@ class ProjectWorklogsManager(models.Manager):
 
 
 class ProjectWorklogsAll(models.Model):
-    pwa_id = models.BigIntegerField(primary_key=True)
+    pwa_id = models.AutoField(primary_key=True)
     cpa = models.ForeignKey(CategoryProjectsAll, models.DO_NOTHING)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=30)
-    modified_at = models.DateTimeField()
+    modified_at = models.DateTimeField(auto_now_add=True)
     modified_by = models.CharField(max_length=30)
     pwa_note = models.TextField()
+    pwa_markdown = models.BooleanField(default=True)
 
     objects = models.Manager()
     gall = ProjectWorklogsManager()

@@ -123,3 +123,6 @@ pre {
   padding: 5px 15px;
 }
 
+#worklog-markdown > pre {
+border:0
+}

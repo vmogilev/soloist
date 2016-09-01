@@ -22,9 +22,9 @@ class PortalsAll(models.Model):
 class PortalClientsAll(models.Model):
     pca_id = models.BigIntegerField(primary_key=True)
     pa = models.ForeignKey(PortalsAll, models.DO_NOTHING)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=30)
-    modified_at = models.DateTimeField()
+    modified_at = models.DateTimeField(auto_now_add=True)
     modified_by = models.CharField(max_length=30)
     pca_code = models.CharField(max_length=30)
     pca_name = models.CharField(max_length=128)

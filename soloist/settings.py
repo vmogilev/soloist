@@ -78,6 +78,7 @@ TEMPLATES = [
             ],
             'libraries': {
                 'breadcrumbs': 'lib.breadcrumbs',
+                'markdown_this': 'lib.markdown_this',
             },
         },
     },

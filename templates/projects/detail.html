@@ -67,8 +67,20 @@
 
     {% include 'lr_pager.html'%}
 
-    <h3>{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}</h3>
-    <pre><code>{{ worklog.pwa_note|urlize }}</code></pre>
+
+    {% if worklog.pwa_markdown %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}</h3>
+            </div>
+            {% load markdown_this %}
+            <div id="worklog-markdown" class="panel-body">{{ worklog.pwa_note|markdown_this|safe }}</div>
+        </div>
+    {% else %}
+        <h3>{{ worklog.created_by }}@{{ worklog.created_at|date:'Y-m-d H:i:s' }}</h3>
+        <pre><code>{{ worklog.pwa_note|urlize }}</code></pre>
+    {% endif %}
+
     {% if worklog.modified_at > worklog.created_at %}
         <div class="mod-by">
             <p class="text-muted"><strong>edited by: </strong>{{ worklog.modified_by }} at {{ worklog.modified_at }}</p>
